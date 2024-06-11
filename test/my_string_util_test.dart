@@ -79,6 +79,7 @@ void test_toUnixStandardPath() {
 void test_removeSpace() {
   test("removeAllSpace", () {
     expect(MyStringUtil_c.removeAllSpace(""), "");
+    expect(MyStringUtil_c.removeAllSpace("  \t \t     "), "");
     expect(MyStringUtil_c.removeAllSpace("   1 2   3 "), "123");
     expect(MyStringUtil_c.removeAllSpace("\t   1\t  \t2   3 \t"), "123");
   });
@@ -120,6 +121,7 @@ void test_isIgnoreCaseEqual() {
     expect(MyStringUtil_c.isIgnoreCaseEqual("", ""), true);
     expect(MyStringUtil_c.isIgnoreCaseEqual(" ", " "), true);
     expect(MyStringUtil_c.isIgnoreCaseEqual("123abcABC", "123abcABC"), true);
+    expect(MyStringUtil_c.isIgnoreCaseEqual("123abcABC", "123ABCabc"), true);
     expect(MyStringUtil_c.isIgnoreCaseEqual("abc", "AbC"), true);
     expect(MyStringUtil_c.isIgnoreCaseEqual("你 好abc\n", "你 好AbC\n"), true);
     // false
@@ -134,7 +136,8 @@ void test_isIgnoreCaseContains() {
     expect(MyStringUtil_c.isIgnoreCaseContains("", ""), true);
     expect(MyStringUtil_c.isIgnoreCaseContains(" ", " "), true);
     expect(MyStringUtil_c.isIgnoreCaseContains("   ", ""), true);
-    expect(MyStringUtil_c.isIgnoreCaseContains("123abcABC", "123abcABC"), true);
+    expect(MyStringUtil_c.isIgnoreCaseContains("123abcABC +++ ", "123abcABC"),
+        true);
     expect(MyStringUtil_c.isIgnoreCaseContains("abcAbC", "AbC"), true);
     expect(MyStringUtil_c.isIgnoreCaseContains("AbCabc", "AbC"), true);
     expect(
@@ -143,6 +146,8 @@ void test_isIgnoreCaseContains() {
       true,
     );
     // false
+    expect(MyStringUtil_c.isIgnoreCaseContains("123abcABC", "123abcABC +++ "),
+        false);
     expect(MyStringUtil_c.isIgnoreCaseContains("", "     "), false);
     expect(MyStringUtil_c.isIgnoreCaseContains("你 好abc\n\r", "不 好ABC"), false);
   });
@@ -181,11 +186,17 @@ void test_isIgnoreCaseContains() {
     // true
     expect(MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(" ", " "), true);
     expect(
-        MyStringUtil_c.isIgnoreCaseContainsAny("123abcABC", "123abcABC"), true);
-    expect(MyStringUtil_c.isIgnoreCaseContainsAny(" dddabc", "AbC"), true);
-    expect(MyStringUtil_c.isIgnoreCaseContainsAny("AbC", " dddabc"), true);
-    expect(MyStringUtil_c.isIgnoreCaseContainsAny("ABCddd ", "AbC"), true);
-    expect(MyStringUtil_c.isIgnoreCaseContainsAny("AbC", "ABCddd "), true);
+        MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(
+            "123abcABC", "123abcABC"),
+        true);
+    expect(MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(" dddabc", "AbC"),
+        true);
+    expect(MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("AbC", " dddabc"),
+        true);
+    expect(MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("ABCddd ", "AbC"),
+        true);
+    expect(MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("AbC", "ABCddd "),
+        true);
     expect(
       MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(
           "  你 好 你 好AbC\n1fdfaf56as", "你 好AbC\n"),
@@ -198,7 +209,12 @@ void test_isIgnoreCaseContains() {
       MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("", "     "),
       false,
     );
-    expect(MyStringUtil_c.isIgnoreCaseContains("你  好abc", "不 好ABC"), false);
-    expect(MyStringUtil_c.isIgnoreCaseContains("你 好abc\n\r", "不 好ABC"), false);
+    expect(
+        MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("你  好abc", "不 好ABC"),
+        false);
+    expect(
+        MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(
+            "你 好abc\n\r", "不 好ABC"),
+        false);
   });
 }
