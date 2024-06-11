@@ -26,6 +26,38 @@ class MyStringUtil_c {
     return (isCode_AZ(code) || isCode_az(code));
   }
 
+  /// 如果是字母，则转为大写[A-Z]，否则返回[null]
+  static int? toCode_tryAZ(int code) {
+    if (isCode_az(code)) {
+      return code - (CODE_a - CODE_A);
+    } else if (isCode_AZ(code)) {
+      return code;
+    }
+    return null;
+  }
+
+  /// 如果是字母，则转为大写[a-z]，否则返回[null]
+  static int? toCode_tryaz(int code) {
+    if (isCode_az(code)) {
+      return code;
+    } else if (isCode_AZ(code)) {
+      return code + (CODE_a - CODE_A);
+    }
+    return null;
+  }
+
+  /// 如果是字母，则转为大写[A-Z]，否则返回[code]
+  static int toCode_mayAZ(int code) {
+    return toCode_tryAZ(code) ?? code;
+  }
+
+  /// 如果是字母，则转为大写[a-z]，否则返回[null]
+  static int? toCode_mayaz(int code) {
+    return toCode_tryaz(code) ?? code;
+  }
+
+  /// 转为大写字母
+  /// * 必须确保[code]是字母
   static int toCode_AZ(int code) {
     if (isCode_az(code)) {
       return code - (CODE_a - CODE_A);
@@ -34,6 +66,8 @@ class MyStringUtil_c {
     return code;
   }
 
+  /// 转为小写字母
+  /// * 必须确保[code]是字母
   static int toCode_az(int code) {
     if (isCode_AZ(code)) {
       return code + (CODE_a - CODE_A);
@@ -227,8 +261,12 @@ class MyStringUtil_c {
   /// 将 路径 规范化，去除多余的 / 或 \
   static String toStandardPath(String path) {
     return path
+        // 合并 \\\ 为 \
         .replaceAll(RegExp(r'\\{2,}'), r'\')
-        .replaceAll(RegExp(r'/{2,}'), '/');
+        // 合并 /// 为 /
+        .replaceAll(RegExp(r'/{2,}'), '/')
+        // 合并连续 \/\/ 为 \
+        .replaceAll(RegExp(r'[\\/]{2,}'), r'\');
   }
 
   /// 将路径unix标准化
@@ -287,6 +325,13 @@ class MyStringUtil_c {
       return null;
     }
     return result;
+  }
+
+  static bool isIgnoreCaseEqual(String left, String right) {
+    if (left.length == right.length) {
+      return left.toLowerCase() == right.toLowerCase();
+    }
+    return false;
   }
 
   /// 判断[longStr]是否包含[shortStr]，忽略大小写
