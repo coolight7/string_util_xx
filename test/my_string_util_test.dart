@@ -5,6 +5,7 @@ void main() {
   test_compareExtend();
   test_toStandardPath();
   test_toUnixStandardPath();
+  test_DirFilePath();
   test_removeSpace();
   test_isIgnoreCaseEqual();
   test_isIgnoreCaseContains();
@@ -73,6 +74,38 @@ void test_toUnixStandardPath() {
       MyStringUtil_c.toUnixStandardPath(r"\\\/\/\a/\\b\\\/\/d\//\/\\\"),
       r"/a/b/d/",
     );
+  });
+}
+
+void test_DirFilePath() {
+  test("测试目录文件路径相关工具", () {
+    expect(MyStringUtil_c.getFileName(""), "");
+    expect(MyStringUtil_c.getFileName("."), ".");
+    expect(MyStringUtil_c.getFileName("..."), "...");
+    expect(MyStringUtil_c.getFileName("...///\\"), "...");
+    expect(MyStringUtil_c.getFileName("/"), "/");
+    expect(MyStringUtil_c.getFileName("/////"), "/////");
+    expect(MyStringUtil_c.getFileName("\\"), "\\");
+    expect(MyStringUtil_c.getFileName("\\\\\\"), "\\\\\\");
+    expect(MyStringUtil_c.getFileName("///\\\\//\\"), "///\\\\//\\");
+    expect(MyStringUtil_c.getFileName(".", removeEXT: true), ".");
+    expect(MyStringUtil_c.getFileName("./.", removeEXT: true), ".");
+    expect(MyStringUtil_c.getFileName("abc/..", removeEXT: true), "..");
+    expect(MyStringUtil_c.getFileName("abc..123", removeEXT: true), "abc.");
+    expect(MyStringUtil_c.getFileName("abc.123.tar.gz"), "abc.123.tar.gz");
+    expect(MyStringUtil_c.getFileName("123"), "123");
+    expect(MyStringUtil_c.getFileName("123/"), "123");
+    expect(MyStringUtil_c.getFileName("123\\"), "123");
+    expect(MyStringUtil_c.getFileName("./123"), "123");
+    expect(MyStringUtil_c.getFileName(".\\123"), "123");
+    expect(
+      MyStringUtil_c.getFileName("./123.456/", removeEXT: true),
+      "123.456",
+    );
+    expect(MyStringUtil_c.getFileName("\\//455//\\123/\\//\\/\\\\"), "123");
+    expect(MyStringUtil_c.getFileName(".///\\//\\/\\123"), "123");
+    expect(MyStringUtil_c.getFileName("///\\//\\/\\\\//"), "///\\//\\/\\\\//");
+    expect(MyStringUtil_c.getFileName(".///\\//\\/\\\\//"), ".");
   });
 }
 
