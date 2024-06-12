@@ -2,7 +2,6 @@ name: my_string_util
 description: "String Util; number sort(1,2,11,22,111)、chinese pinyin sort/中文拼音排序"
 version: 0.1.0
 homepage: https://github.com/coolight7/my_string_util
-publish_to: "https://pub.dartlang.org"
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
