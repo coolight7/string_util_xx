@@ -1,6 +1,6 @@
 name: my_string_util
-description: "A new Flutter package project."
-version: 0.0.3
+description: "String Util; number sort(1,2,11,22,111)、chinese pinyin sort/中文拼音排序"
+version: 0.1.0
 homepage:
 
 environment:
