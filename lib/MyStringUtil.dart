@@ -387,17 +387,20 @@ class MyStringUtil_c {
   }
 
   /// 获取文件或文件夹的父目录路径
-  static String getFileDirPath(String in_path) {
+  static String? getParentDirPath(String in_path) {
     int i = in_path.length;
+    // 去掉末尾的 / 或 \
     while (i-- > 0) {
-      if (in_path[i] != '/' && in_path[i] != '\\') {
+      if (in_path[i] != '/' && in_path[i] != r'\') {
         break;
       }
     }
-    // 去掉末尾的 /
+    if (i < 0 && in_path.isNotEmpty) {
+      // 全是 / 或 \
+      return "/";
+    }
     for (; i-- > 0;) {
-      if (in_path[i] == '/' || in_path[i] == '\\') {
-        // 如果为路径符号
+      if (in_path[i] == '/' || in_path[i] == r'\') {
         if (i == in_path.length) {
           return "";
         } else {
@@ -405,7 +408,11 @@ class MyStringUtil_c {
         }
       }
     }
-    return in_path;
+    // 前面没有 /
+    // xxx
+    // 尾部有 / ，但前面没有 /，仍应丢弃
+    // xxx/
+    return null;
   }
 
   /// 移除所有空白符号

@@ -118,6 +118,18 @@ void test_DirFilePath() {
     expect(MyStringUtil_c.getFileNameEXT("./../...name"), "name");
     expect(MyStringUtil_c.getFileNameEXT("./../name..."), null);
   });
+
+  test("getParentDirPath", () {
+    expect(MyStringUtil_c.getParentDirPath(""), null);
+    expect(MyStringUtil_c.getParentDirPath("."), null);
+    expect(MyStringUtil_c.getParentDirPath("..."), null);
+    expect(MyStringUtil_c.getParentDirPath("...xx./"), null);
+    expect(MyStringUtil_c.getParentDirPath("/...xx."), "/");
+    expect(MyStringUtil_c.getParentDirPath("/...xx./"), "/");
+    expect(MyStringUtil_c.getParentDirPath("/...xx./xxx"), "/...xx./");
+    expect(MyStringUtil_c.getParentDirPath("./xxx"), "./");
+    expect(MyStringUtil_c.getParentDirPath("../xxx"), "../");
+  });
 }
 
 void test_removeSpace() {
