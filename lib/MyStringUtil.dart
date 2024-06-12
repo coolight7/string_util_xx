@@ -274,6 +274,133 @@ class MyStringUtil_c {
     return path.replaceAll(RegExp(r'[/\\]+'), '/');
   }
 
+  /// ## 获取文件或文件夹名称
+  /// * [useRigthDot] 判断扩展名时应当取左还是右边的点[.]
+  /// ### 特殊情况
+  /// * [in_path] 空字符串；返回空字符串 ""
+  /// * in_path = "/" 或 "\"；返回本身 "/" 或 "\"
+  static String getFileName(
+    String in_path, {
+    bool removeEXT = false, // 是否去掉扩展名
+    bool useRigthDot = true,
+  }) {
+    if (in_path.isEmpty) {
+      return "";
+    }
+    int i = in_path.length;
+    bool isContinueDot = false;
+    // 去除尾部的/或\
+    while (i-- > 0) {
+      if (in_path[i] != '/' && in_path[i] != r'\') {
+        break;
+      }
+      // 如果移除过尾部的斜杠，说明是文件夹，不需要识别扩展名
+      removeEXT = false;
+    }
+    int nameEndIndex = i + 1;
+    // 开始查找名称之前的 / 或 \，以及名称之后的.
+    // 记录左右.的位置
+    int? leftDotIndex, leftTempDotIndex, rightDotIndex;
+    if (nameEndIndex <= 0) {
+      return in_path;
+    }
+    for (; i-- > 0;) {
+      if (in_path[i] == '/' || in_path[i] == r'\') {
+        // 如果为路径符号
+        if (i == in_path.length) {
+          return "";
+        } else {
+          break;
+        }
+      } else if ('.' == in_path[i]) {
+        // .
+        if (removeEXT) {
+          rightDotIndex ??= i;
+          leftTempDotIndex = leftDotIndex;
+          leftDotIndex = i;
+          isContinueDot = (leftDotIndex != rightDotIndex);
+        }
+      } else {
+        isContinueDot = false;
+      }
+    }
+    // 修正右边界
+    rightDotIndex ??= nameEndIndex;
+    var start = i + 1;
+    int? end;
+    if (useRigthDot) {
+      end = rightDotIndex;
+    } else {
+      end = leftDotIndex;
+    }
+    if (start < 0) {
+      start = 0;
+    }
+    if (null != end && end < 0) {
+      end = 0;
+    }
+    if (leftDotIndex == start) {
+      // .开头，整个文件名都是扩展名
+      if (isContinueDot ||
+          false == removeEXT ||
+          leftDotIndex == rightDotIndex) {
+        // 连续 .
+        // 不删扩展名
+        // 只有开头一个点
+        end = nameEndIndex;
+      } else {
+        // 移除扩展名
+        if (useRigthDot) {
+          end = rightDotIndex;
+        } else {
+          // 此时[leftDotIndex]是开头的.因此需要取第二个点
+          end = leftTempDotIndex;
+        }
+      }
+    }
+    return in_path.substring(start, end);
+  }
+
+  /// 获取文件扩展名
+  /// 即识别最后一个.之后的字符串
+  static String? getFileNameEXT(String in_path) {
+    /// 排除空字符串和 xxx.
+    if (in_path.isEmpty || in_path.endsWith('.')) {
+      return null;
+    }
+
+    /// xx.xx
+    /// i > 1 排除.开头的情况 .xxx
+    for (int i = in_path.length - 1; i-- > 1;) {
+      if (in_path[i] == '.') {
+        return in_path.substring(i + 1);
+      }
+    }
+    return null;
+  }
+
+  /// 获取文件或文件夹的父目录路径
+  static String getFileDirPath(String in_path) {
+    int i = in_path.length;
+    while (i-- > 0) {
+      if (in_path[i] != '/' && in_path[i] != '\\') {
+        break;
+      }
+    }
+    // 去掉末尾的 /
+    for (; i-- > 0;) {
+      if (in_path[i] == '/' || in_path[i] == '\\') {
+        // 如果为路径符号
+        if (i == in_path.length) {
+          return "";
+        } else {
+          return in_path.substring(0, i + 1);
+        }
+      }
+    }
+    return in_path;
+  }
+
   /// 移除所有空白符号
   static String removeAllSpace(String str) {
     return str.replaceAll(RegExp(r"\s+"), "");
