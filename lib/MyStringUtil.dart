@@ -364,8 +364,15 @@ class MyStringUtil_c {
   /// 获取文件扩展名
   /// 即识别最后一个.之后的字符串
   static String? getFileNameEXT(String in_path) {
-    /// 排除空字符串和 xxx.
-    if (in_path.isEmpty || in_path.endsWith('.')) {
+    /// 排除：
+    ///   空字符串
+    ///   xxx.
+    ///   xxx/
+    ///   xxx\
+    if (in_path.isEmpty ||
+        in_path.endsWith('.') ||
+        in_path.endsWith("/") ||
+        in_path.endsWith(r"\")) {
       return null;
     }
 

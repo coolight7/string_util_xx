@@ -78,7 +78,7 @@ void test_toUnixStandardPath() {
 }
 
 void test_DirFilePath() {
-  test("测试目录文件路径相关工具", () {
+  test("getFileName", () {
     expect(MyStringUtil_c.getFileName(""), "");
     expect(MyStringUtil_c.getFileName("."), ".");
     expect(MyStringUtil_c.getFileName("..."), "...");
@@ -106,6 +106,17 @@ void test_DirFilePath() {
     expect(MyStringUtil_c.getFileName(".///\\//\\/\\123"), "123");
     expect(MyStringUtil_c.getFileName("///\\//\\/\\\\//"), "///\\//\\/\\\\//");
     expect(MyStringUtil_c.getFileName(".///\\//\\/\\\\//"), ".");
+  });
+  test("getFileNameEXT", () {
+    expect(MyStringUtil_c.getFileNameEXT(""), null);
+    expect(MyStringUtil_c.getFileNameEXT("."), null);
+    expect(MyStringUtil_c.getFileNameEXT("..."), null);
+    expect(MyStringUtil_c.getFileNameEXT("abc.name"), "name");
+    expect(MyStringUtil_c.getFileNameEXT("abc.name/"), null);
+    expect(MyStringUtil_c.getFileNameEXT(r"abc.name\"), null);
+    expect(MyStringUtil_c.getFileNameEXT("./../..."), null);
+    expect(MyStringUtil_c.getFileNameEXT("./../...name"), "name");
+    expect(MyStringUtil_c.getFileNameEXT("./../name..."), null);
   });
 }
 
