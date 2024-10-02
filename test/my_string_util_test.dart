@@ -156,6 +156,25 @@ void test_removeSpace() {
       MyStringUtil_c.removeBetweenSpace("\t   1\t  \t2   3 \t"),
       "1\t  \t2   3",
     );
+    expect(
+      MyStringUtil_c.removeBetweenSpace(" \n \r  1 2   3 \n\r", removeLine: false), 
+      "\n \r  1 2   3 \n\r",
+    );
+    expect(
+      MyStringUtil_c.removeBetweenSpace("\n \r  1 2   3\n\r", removeLine: false), 
+      "\n \r  1 2   3\n\r",
+    );
+    expect(
+      MyStringUtil_c.removeBetweenSpace("\n \r  1 2   3\n\r  ", removeLine: false), 
+      "\n \r  1 2   3\n\r",
+    );
+    expect(
+      MyStringUtil_c.removeBetweenSpace(" \n \r  1 2   3 \n\r"), 
+      "1 2   3",
+    );expect(
+      MyStringUtil_c.removeBetweenSpace("\n \r  1 2   3\n\r  "),
+      "1 2   3",
+    );
   });
   test("removeBetweenSpace", () {
     expect(MyStringUtil_c.removeBetweenSpaceMayNull(null), null);

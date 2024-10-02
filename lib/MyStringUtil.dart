@@ -433,18 +433,25 @@ class MyStringUtil_c {
   }
 
   /// 移除[str]两边的（空格|制表符\t）
-  static String removeBetweenSpace(String str) {
+  /// - [removeLine] 是否移除两边的换行符号
+  static String removeBetweenSpace(String str, {
+    bool removeLine = true,
+  }) {
     if (str.isEmpty) {
       return str;
     }
     int left = 0, right = str.length - 1;
     for (; right >= left; --right) {
-      if (str[right] != ' ' && str[right] != '\t') {
+      if (str[right] != ' ' 
+        && str[right] != '\t' 
+        && (false == removeLine || (str[right] != '\r' && str[right] != '\n'))) {
         break;
       }
     }
     for (; left <= right; ++left) {
-      if (str[left] != ' ' && str[left] != '\t') {
+      if (str[left] != ' ' 
+        && str[left] != '\t' 
+        && (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
         break;
       }
     }
@@ -457,11 +464,13 @@ class MyStringUtil_c {
 
   /// 移除[str]两端的（空格|制表符\t），
   /// 如果[str]为[null]或移除空白符号后得到[空字符串]则返回[null]
-  static String? removeBetweenSpaceMayNull(String? str) {
+  static String? removeBetweenSpaceMayNull(String? str, {
+    bool removeLine = true,
+  }) {
     if (null == str) {
       return null;
     }
-    final result = removeBetweenSpace(str);
+    final result = removeBetweenSpace(str, removeLine: removeLine);
     if (result.isEmpty) {
       return null;
     }
