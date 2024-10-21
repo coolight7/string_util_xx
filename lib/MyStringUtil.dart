@@ -26,6 +26,38 @@ class MyStringUtil_c {
     return (isCode_AZ(code) || isCode_az(code));
   }
 
+  /// 如果是字母，则转为大写[A-Z]，否则返回[null]
+  static int? toCode_tryAZ(int code) {
+    if (isCode_az(code)) {
+      return code - (CODE_a - CODE_A);
+    } else if (isCode_AZ(code)) {
+      return code;
+    }
+    return null;
+  }
+
+  /// 如果是字母，则转为大写[a-z]，否则返回[null]
+  static int? toCode_tryaz(int code) {
+    if (isCode_az(code)) {
+      return code;
+    } else if (isCode_AZ(code)) {
+      return code + (CODE_a - CODE_A);
+    }
+    return null;
+  }
+
+  /// 如果是字母，则转为大写[A-Z]，否则返回[code]
+  static int toCode_mayAZ(int code) {
+    return toCode_tryAZ(code) ?? code;
+  }
+
+  /// 如果是字母，则转为大写[a-z]，否则返回[null]
+  static int? toCode_mayaz(int code) {
+    return toCode_tryaz(code) ?? code;
+  }
+
+  /// 转为大写字母
+  /// * 必须确保[code]是字母
   static int toCode_AZ(int code) {
     if (isCode_az(code)) {
       return code - (CODE_a - CODE_A);
@@ -34,6 +66,8 @@ class MyStringUtil_c {
     return code;
   }
 
+  /// 转为小写字母
+  /// * 必须确保[code]是字母
   static int toCode_az(int code) {
     if (isCode_AZ(code)) {
       return code + (CODE_a - CODE_A);
@@ -227,13 +261,158 @@ class MyStringUtil_c {
   /// 将 路径 规范化，去除多余的 / 或 \
   static String toStandardPath(String path) {
     return path
+        // 合并 \\\ 为 \
         .replaceAll(RegExp(r'\\{2,}'), r'\')
-        .replaceAll(RegExp(r'/{2,}'), '/');
+        // 合并 /// 为 /
+        .replaceAll(RegExp(r'/{2,}'), '/')
+        // 合并连续 \/\/ 为 \
+        .replaceAll(RegExp(r'[\\/]{2,}'), r'\');
   }
 
   /// 将路径unix标准化
   static String toUnixStandardPath(String path) {
     return path.replaceAll(RegExp(r'[/\\]+'), '/');
+  }
+
+  /// ## 获取文件或文件夹名称
+  /// * [useRigthDot] 判断扩展名时应当取左还是右边的点[.]
+  /// ### 特殊情况
+  /// * [in_path] 空字符串；返回空字符串 ""
+  /// * in_path = "/" 或 "\"；返回本身 "/" 或 "\"
+  static String getFileName(
+    String in_path, {
+    bool removeEXT = false, // 是否去掉扩展名
+    bool useRigthDot = true,
+  }) {
+    if (in_path.isEmpty) {
+      return "";
+    }
+    int i = in_path.length;
+    bool isContinueDot = false;
+    // 去除尾部的/或\
+    while (i-- > 0) {
+      if (in_path[i] != '/' && in_path[i] != r'\') {
+        break;
+      }
+      // 如果移除过尾部的斜杠，说明是文件夹，不需要识别扩展名
+      removeEXT = false;
+    }
+    int nameEndIndex = i + 1;
+    // 开始查找名称之前的 / 或 \，以及名称之后的.
+    // 记录左右.的位置
+    int? leftDotIndex, leftTempDotIndex, rightDotIndex;
+    if (nameEndIndex <= 0) {
+      return in_path;
+    }
+    for (; i-- > 0;) {
+      if (in_path[i] == '/' || in_path[i] == r'\') {
+        // 如果为路径符号
+        if (i == in_path.length) {
+          return "";
+        } else {
+          break;
+        }
+      } else if ('.' == in_path[i]) {
+        // .
+        if (removeEXT) {
+          rightDotIndex ??= i;
+          leftTempDotIndex = leftDotIndex;
+          leftDotIndex = i;
+          isContinueDot = (leftDotIndex != rightDotIndex);
+        }
+      } else {
+        isContinueDot = false;
+      }
+    }
+    // 修正右边界
+    rightDotIndex ??= nameEndIndex;
+    var start = i + 1;
+    int? end;
+    if (useRigthDot) {
+      end = rightDotIndex;
+    } else {
+      end = leftDotIndex;
+    }
+    if (start < 0) {
+      start = 0;
+    }
+    if (null != end && end < 0) {
+      end = 0;
+    }
+    if (leftDotIndex == start) {
+      // .开头，整个文件名都是扩展名
+      if (isContinueDot ||
+          false == removeEXT ||
+          leftDotIndex == rightDotIndex) {
+        // 连续 .
+        // 不删扩展名
+        // 只有开头一个点
+        end = nameEndIndex;
+      } else {
+        // 移除扩展名
+        if (useRigthDot) {
+          end = rightDotIndex;
+        } else {
+          // 此时[leftDotIndex]是开头的.因此需要取第二个点
+          end = leftTempDotIndex;
+        }
+      }
+    }
+    return in_path.substring(start, end);
+  }
+
+  /// 获取文件扩展名
+  /// 即识别最后一个.之后的字符串
+  static String? getFileNameEXT(String in_path) {
+    /// 排除：
+    ///   空字符串
+    ///   xxx.
+    ///   xxx/
+    ///   xxx\
+    if (in_path.isEmpty ||
+        in_path.endsWith('.') ||
+        in_path.endsWith("/") ||
+        in_path.endsWith(r"\")) {
+      return null;
+    }
+
+    /// xx.xx
+    /// i > 1 排除.开头的情况 .xxx
+    for (int i = in_path.length - 1; i-- > 1;) {
+      if (in_path[i] == '.') {
+        return in_path.substring(i + 1);
+      }
+    }
+    return null;
+  }
+
+  /// 获取文件或文件夹的父目录路径
+  static String? getParentDirPath(String in_path) {
+    int i = in_path.length;
+    // 去掉末尾的 / 或 \
+    while (i-- > 0) {
+      if (in_path[i] != '/' && in_path[i] != r'\') {
+        break;
+      }
+    }
+    if (i < 0 && in_path.isNotEmpty) {
+      // 全是 / 或 \
+      return "/";
+    }
+    for (; i-- > 0;) {
+      if (in_path[i] == '/' || in_path[i] == r'\') {
+        if (i == in_path.length) {
+          return "";
+        } else {
+          return in_path.substring(0, i + 1);
+        }
+      }
+    }
+    // 前面没有 /
+    // xxx
+    // 尾部有 / ，但前面没有 /，仍应丢弃
+    // xxx/
+    return null;
   }
 
   /// 移除所有空白符号
@@ -254,18 +433,25 @@ class MyStringUtil_c {
   }
 
   /// 移除[str]两边的（空格|制表符\t）
-  static String removeBetweenSpace(String str) {
+  /// - [removeLine] 是否移除两边的换行符号
+  static String removeBetweenSpace(String str, {
+    bool removeLine = true,
+  }) {
     if (str.isEmpty) {
       return str;
     }
     int left = 0, right = str.length - 1;
     for (; right >= left; --right) {
-      if (str[right] != ' ' && str[right] != '\t') {
+      if (str[right] != ' ' 
+        && str[right] != '\t' 
+        && (false == removeLine || (str[right] != '\r' && str[right] != '\n'))) {
         break;
       }
     }
     for (; left <= right; ++left) {
-      if (str[left] != ' ' && str[left] != '\t') {
+      if (str[left] != ' ' 
+        && str[left] != '\t' 
+        && (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
         break;
       }
     }
@@ -278,15 +464,24 @@ class MyStringUtil_c {
 
   /// 移除[str]两端的（空格|制表符\t），
   /// 如果[str]为[null]或移除空白符号后得到[空字符串]则返回[null]
-  static String? removeBetweenSpaceMayNull(String? str) {
+  static String? removeBetweenSpaceMayNull(String? str, {
+    bool removeLine = true,
+  }) {
     if (null == str) {
       return null;
     }
-    final result = removeBetweenSpace(str);
+    final result = removeBetweenSpace(str, removeLine: removeLine);
     if (result.isEmpty) {
       return null;
     }
     return result;
+  }
+
+  static bool isIgnoreCaseEqual(String left, String right) {
+    if (left.length == right.length) {
+      return left.toLowerCase() == right.toLowerCase();
+    }
+    return false;
   }
 
   /// 判断[longStr]是否包含[shortStr]，忽略大小写
