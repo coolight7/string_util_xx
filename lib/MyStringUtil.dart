@@ -190,6 +190,7 @@ class MyStringUtil_c {
               leftSum *= 10;
               leftSum += item;
             } else {
+              --i;
               break;
             }
           }
@@ -199,6 +200,7 @@ class MyStringUtil_c {
               rightSum *= 10;
               rightSum += item;
             } else {
+              --j;
               break;
             }
           }

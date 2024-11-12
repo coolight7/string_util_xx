@@ -44,6 +44,11 @@ void test_compareExtend() {
     expect(MyStringUtil_c.compareExtend(" #= 7", " #= 2 kkk"), 7 - 2);
     expect(MyStringUtil_c.compareExtend("123 cool z", "123 cool 七"), 1);
     expect(MyStringUtil_c.compareExtend("123 cool 七八九", "123 cool q"), 1);
+    // 间隔数值
+    expect(MyStringUtil_c.compareExtend("0776 24K的纯", "0617 300万捐款"), 776 - 617);
+    expect(MyStringUtil_c.compareExtend("0401 996牛", "617 300万捐款"), 401 - 617);
+    expect(MyStringUtil_c.compareExtend("0401 996牛", "401 3009万捐款"), 996 - 3009);
+    expect(MyStringUtil_c.compareExtend("0401  996牛", "401 3009万捐款"), -2013);
   });
 }
 
