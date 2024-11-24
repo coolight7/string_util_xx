@@ -1,6 +1,6 @@
 import 'package:lpinyin/lpinyin.dart';
 
-class MyStringUtil_c {
+class StringUtilxx_c {
   static const int CODE_0 = 48,
       CODE_9 = 57,
       CODE_A = 65,
@@ -8,7 +8,7 @@ class MyStringUtil_c {
       CODE_a = 97,
       CODE_z = 122;
 
-  MyStringUtil_c._();
+  StringUtilxx_c._();
 
   static bool isCode_num(int code) {
     return (code >= CODE_0 && code <= CODE_9);
@@ -190,7 +190,6 @@ class MyStringUtil_c {
               leftSum *= 10;
               leftSum += item;
             } else {
-              --i;
               break;
             }
           }
@@ -200,7 +199,6 @@ class MyStringUtil_c {
               rightSum *= 10;
               rightSum += item;
             } else {
-              --j;
               break;
             }
           }
@@ -436,7 +434,8 @@ class MyStringUtil_c {
 
   /// 移除[str]两边的（空格|制表符\t）
   /// - [removeLine] 是否移除两边的换行符号
-  static String removeBetweenSpace(String str, {
+  static String removeBetweenSpace(
+    String str, {
     bool removeLine = true,
   }) {
     if (str.isEmpty) {
@@ -444,16 +443,16 @@ class MyStringUtil_c {
     }
     int left = 0, right = str.length - 1;
     for (; right >= left; --right) {
-      if (str[right] != ' ' 
-        && str[right] != '\t' 
-        && (false == removeLine || (str[right] != '\r' && str[right] != '\n'))) {
+      if (str[right] != ' ' &&
+          str[right] != '\t' &&
+          (false == removeLine || (str[right] != '\r' && str[right] != '\n'))) {
         break;
       }
     }
     for (; left <= right; ++left) {
-      if (str[left] != ' ' 
-        && str[left] != '\t' 
-        && (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
+      if (str[left] != ' ' &&
+          str[left] != '\t' &&
+          (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
         break;
       }
     }
@@ -466,7 +465,8 @@ class MyStringUtil_c {
 
   /// 移除[str]两端的（空格|制表符\t），
   /// 如果[str]为[null]或移除空白符号后得到[空字符串]则返回[null]
-  static String? removeBetweenSpaceMayNull(String? str, {
+  static String? removeBetweenSpaceMayNull(
+    String? str, {
     bool removeLine = true,
   }) {
     if (null == str) {
