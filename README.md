@@ -15,17 +15,17 @@
 * 在`pubspec.yaml`中导入本插件:
 ```yaml
   dependencies:
-    my_string_util:  # 在`dependencies`下添加这一行，注意缩进是必要的
+    string_util_xx:  # 在`dependencies`下添加这一行，注意缩进是必要的
 ```
 * 在你希望使用的地方import:
 ```dart
-import 'package:my_string_util/MyStringUtil.dart';
+import 'package:string_util_xx/StringUtilxx.dart';
 ```
 
 ## Usage
 
 ### 中文拼音排序/数值排序
-* 将`MyStringUtil_c.compareExtend`传递给排序算法即可，比如内置的`sort`：
+* 将`StringUtilxx_c.compareExtend`传递给排序算法即可，比如内置的`sort`：
 ```dart
 final list = <String>[
     "77",
@@ -45,7 +45,7 @@ final list = <String>[
     "第77天",
 ];
 // 排序
-list.sort(MyStringUtil_c.compareExtend);
+list.sort(StringUtilxx_c.compareExtend);
 // 即可得到排序后的`list`，结果为:
 [
   77, 
@@ -76,59 +76,59 @@ list.sort(MyStringUtil_c.compareExtend);
   * 对于连续的`\`，合并为`\`
   * 对于连续的`/`和`\`，合并为`\`；因为路径会出现分隔符`\`一般是win端，合并为`\`较好
 ```dart
-String result = MyStringUtil_c.toStandardPath("//a//b//"); // result = "/a/b/";
-String result = MyStringUtil_c.toStandardPath("\\\\\\a\\\\b\\"); // result = "\a\b\";
-String result = MyStringUtil_c.toStandardPath("//a//\\//\\/\b/\\/"); // result = "/a\b\";
+String result = StringUtilxx_c.toStandardPath("//a//b//"); // result = "/a/b/";
+String result = StringUtilxx_c.toStandardPath("\\\\\\a\\\\b\\"); // result = "\a\b\";
+String result = StringUtilxx_c.toStandardPath("//a//\\//\\/\b/\\/"); // result = "/a\b\";
 ```
 * 统一合并为`/`:
   * 无论连续的`/`和`\`，都合并为`/`
 ```dart
-String result = MyStringUtil_c.toUnixStandardPath("//a//b//"); // result = "/a/b/";
-String result = MyStringUtil_c.toUnixStandardPath("\\\\\\a\\\\b\\"); // result = "/a/b/";
-String result = MyStringUtil_c.toUnixStandardPath("//a//\\//\\/\b/\\/"); // result = "/a/b/";
+String result = StringUtilxx_c.toUnixStandardPath("//a//b//"); // result = "/a/b/";
+String result = StringUtilxx_c.toUnixStandardPath("\\\\\\a\\\\b\\"); // result = "/a/b/";
+String result = StringUtilxx_c.toUnixStandardPath("//a//\\//\\/\b/\\/"); // result = "/a/b/";
 ```
 
 ### 移除空白符号
 ```dart
 // 移除所有空白符号
-String result = MyStringUtil_c.removeAllSpace("\t   1\t  \t2   3 \t") // result = "123";
-String result = MyStringUtil_c.removeAllSpace("  \t \t     "); // result = "";
+String result = StringUtilxx_c.removeAllSpace("\t   1\t  \t2   3 \t") // result = "123";
+String result = StringUtilxx_c.removeAllSpace("  \t \t     "); // result = "";
 // 移除后如果是空字符串会返回null
-String? result = MyStringUtil_c.removeAllSpaceMayNull("\t   1\t  \t2   3 \t") // result = "123";
-String? result = MyStringUtil_c.removeAllSpaceMayNull("  \t \t     "); // result = null;
+String? result = StringUtilxx_c.removeAllSpaceMayNull("\t   1\t  \t2   3 \t") // result = "123";
+String? result = StringUtilxx_c.removeAllSpaceMayNull("  \t \t     "); // result = null;
 // 仅移除两端的空白符号
-String result = MyStringUtil_c.removeBetweenSpace("\t  1 2 \t 3 "); // result = "1 2 \t 3";
-String result = MyStringUtil_c.removeBetweenSpace("  \t \t     "); // result = "";
+String result = StringUtilxx_c.removeBetweenSpace("\t  1 2 \t 3 "); // result = "1 2 \t 3";
+String result = StringUtilxx_c.removeBetweenSpace("  \t \t     "); // result = "";
 // 仅移除两端的空白符号，但移除后如果是空字符串会返回null
-String result = MyStringUtil_c.removeBetweenSpaceMayNull("\t  1 2 \t 3 "); // result = "1 2 \t 3";
-String result = MyStringUtil_c.removeBetweenSpaceMayNull("  \t \t     "); // result = null;
+String result = StringUtilxx_c.removeBetweenSpaceMayNull("\t  1 2 \t 3 "); // result = "1 2 \t 3";
+String result = StringUtilxx_c.removeBetweenSpaceMayNull("  \t \t     "); // result = null;
 ```
 
 ### 忽略大小写比较
 ```dart
 // 忽略大小写比较相等
-MyStringUtil_c.isIgnoreCaseEqual("", ""); // true
-MyStringUtil_c.isIgnoreCaseEqual(" ", " "); // true
-MyStringUtil_c.isIgnoreCaseEqual("123abcABC", "123ABCabc"); // true
+StringUtilxx_c.isIgnoreCaseEqual("", ""); // true
+StringUtilxx_c.isIgnoreCaseEqual(" ", " "); // true
+StringUtilxx_c.isIgnoreCaseEqual("123abcABC", "123ABCabc"); // true
 // 忽略大小写，比较左边是否包含右边
-MyStringUtil_c.isIgnoreCaseContains("123abcABC  +++ ", "123ABCabc") // true
-MyStringUtil_c.isIgnoreCaseContains("123ABCabc"，"123abcABC  +++ ") // false
-MyStringUtil_c.isIgnoreCaseContains("", ""); // true
-MyStringUtil_c.isIgnoreCaseContains(" ", " ") // true
-MyStringUtil_c.isIgnoreCaseContains("   ", "") // true
+StringUtilxx_c.isIgnoreCaseContains("123abcABC  +++ ", "123ABCabc") // true
+StringUtilxx_c.isIgnoreCaseContains("123ABCabc"，"123abcABC  +++ ") // false
+StringUtilxx_c.isIgnoreCaseContains("", ""); // true
+StringUtilxx_c.isIgnoreCaseContains(" ", " ") // true
+StringUtilxx_c.isIgnoreCaseContains("   ", "") // true
 // 忽略大小写，比较是否有一方包含另一方
-MyStringUtil_c.isIgnoreCaseContainsAny("123abcABC  +++ ", "123ABCabc") // true
-MyStringUtil_c.isIgnoreCaseContainsAny("123ABCabc"，"123abcABC  +++ ") // true
-MyStringUtil_c.isIgnoreCaseContainsAny("", ""); // true
-MyStringUtil_c.isIgnoreCaseContainsAny(" ", " ") // true
-MyStringUtil_c.isIgnoreCaseContainsAny("   ", "") // true
+StringUtilxx_c.isIgnoreCaseContainsAny("123abcABC  +++ ", "123ABCabc") // true
+StringUtilxx_c.isIgnoreCaseContainsAny("123ABCabc"，"123abcABC  +++ ") // true
+StringUtilxx_c.isIgnoreCaseContainsAny("", ""); // true
+StringUtilxx_c.isIgnoreCaseContainsAny(" ", " ") // true
+StringUtilxx_c.isIgnoreCaseContainsAny("   ", "") // true
 // 忽略大小写，比较是否两者都不为空字符串，且有一方包含另一方
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("123abcABC  +++ ", "123ABCabc") // true
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("123ABCabc"，"123abcABC  +++ ") // true
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("", ""); // false
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny(" ", " ") // true
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("   ", "") // false
-MyStringUtil_c.isNotEmptyAndIgnoreCaseContainsAny("", "   ") // false
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny("123abcABC  +++ ", "123ABCabc") // true
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny("123ABCabc"，"123abcABC  +++ ") // true
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny("", ""); // false
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny(" ", " ") // true
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny("   ", "") // false
+StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny("", "   ") // false
 
 ```
 

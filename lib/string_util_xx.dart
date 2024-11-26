@@ -1,3 +1,3 @@
-library string_util_xx;
+library;
 
 export 'StringUtilxx.dart';

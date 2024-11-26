@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:string_util_xx/StringUtilxx.dart';
+import 'package:test/test.dart';
 
 void main() {
   test_compareExtend();
