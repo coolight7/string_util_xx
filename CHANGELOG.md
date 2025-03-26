@@ -1,3 +1,5 @@
+## 0.2.4
+- `removeBetweenSpaceMayNull` 同 `removeBetweenSpace`
 ## 0.2.3
 - `removeBetweenSpace` 支持指定限制移除字符串的左右空白
 ## 0.2.2

@@ -476,11 +476,18 @@ class StringUtilxx_c {
   static String? removeBetweenSpaceMayNull(
     String? str, {
     bool removeLine = true,
+    bool subLeft = true,
+    bool subRight = true,
   }) {
     if (null == str) {
       return null;
     }
-    final result = removeBetweenSpace(str, removeLine: removeLine);
+    final result = removeBetweenSpace(
+      str,
+      removeLine: removeLine,
+      subLeft: subLeft,
+      subRight: subRight,
+    );
     if (result.isEmpty) {
       return null;
     }
