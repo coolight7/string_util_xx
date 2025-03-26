@@ -1,8 +1,7 @@
 name: string_util_xx
 description: "String Util; number sort(1,2,11,22,111)、chinese pinyin sort/中文拼音排序"
-version: 0.2.2
+version: 0.2.3
 homepage: https://github.com/coolight7/string_util_xx
-publish_to: https://pub.dev/packages/string_util_xx
 
 environment:
   sdk: ^2.19.6

@@ -179,6 +179,20 @@ void test_removeSpace() {
       StringUtilxx_c.removeBetweenSpace("\n \r  1 2   3\n\r  "),
       "1 2   3",
     );
+    expect(
+      StringUtilxx_c.removeBetweenSpace(
+        "\n \r  1 2   3\n\r  ",
+        subLeft: false,
+      ),
+      "\n \r  1 2   3",
+    );
+    expect(
+      StringUtilxx_c.removeBetweenSpace(
+        "\n \r  1 2   3\n\r  ",
+        subRight: false,
+      ),
+      "1 2   3\n\r  ",
+    );
   });
   test("removeBetweenSpace", () {
     expect(StringUtilxx_c.removeBetweenSpaceMayNull(null), null);

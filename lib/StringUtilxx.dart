@@ -437,23 +437,31 @@ class StringUtilxx_c {
   static String removeBetweenSpace(
     String str, {
     bool removeLine = true,
+    bool subLeft = true,
+    bool subRight = true,
   }) {
+    assert(subLeft || subRight);
     if (str.isEmpty) {
       return str;
     }
     int left = 0, right = str.length - 1;
-    for (; right >= left; --right) {
-      if (str[right] != ' ' &&
-          str[right] != '\t' &&
-          (false == removeLine || (str[right] != '\r' && str[right] != '\n'))) {
-        break;
+    if (subRight) {
+      for (; right >= left; --right) {
+        if (str[right] != ' ' &&
+            str[right] != '\t' &&
+            (false == removeLine ||
+                (str[right] != '\r' && str[right] != '\n'))) {
+          break;
+        }
       }
     }
-    for (; left <= right; ++left) {
-      if (str[left] != ' ' &&
-          str[left] != '\t' &&
-          (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
-        break;
+    if (subLeft) {
+      for (; left <= right; ++left) {
+        if (str[left] != ' ' &&
+            str[left] != '\t' &&
+            (false == removeLine || (str[left] != '\r' && str[left] != '\n'))) {
+          break;
+        }
       }
     }
     if (left <= right) {
