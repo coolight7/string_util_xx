@@ -117,6 +117,14 @@ void test_DirFilePath() {
     expect(StringUtilxx_c.getFileNameEXT("./../..."), null);
     expect(StringUtilxx_c.getFileNameEXT("./../...name"), "name");
     expect(StringUtilxx_c.getFileNameEXT("./../name..."), null);
+
+    expect(StringUtilxx_c.replaceOrAppendExt("hello", "wav"), "hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt("hello.mp3", "wav"), "hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt("hello.f", "wav"), "hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt("hello.flac", "wav"), "hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt("hello.", "wav"), "hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt(".hello", "wav"), ".hello.wav");
+    expect(StringUtilxx_c.replaceOrAppendExt(".hello.", "wav"), ".hello.wav");
   });
 
   test("getParentDirPath", () {

@@ -386,6 +386,18 @@ class StringUtilxx_c {
     return null;
   }
 
+  static String replaceOrAppendExt(String inpath, String newExt) {
+    final ext = getFileNameEXT(inpath);
+    if (null != ext) {
+      return inpath.replaceRange(
+          inpath.length - ext.length, inpath.length, newExt);
+    }
+    if (inpath.endsWith(".")) {
+      return inpath + newExt;
+    }
+    return "$inpath.$newExt";
+  }
+
   /// 获取文件或文件夹的父目录路径
   static String? getParentDirPath(String in_path) {
     int i = in_path.length;
