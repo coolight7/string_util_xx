@@ -532,4 +532,23 @@ class StringUtilxx_c {
     }
     return isIgnoreCaseContainsAny(str1, str2);
   }
+
+  static String? subString(
+    String str, {
+    int start = 0,
+    int? end,
+  }) {
+    if (start > str.length) {
+      return null;
+    }
+    if (null != end) {
+      if (end > start) {
+        return null;
+      }
+      if (end > str.length) {
+        end = null;
+      }
+    }
+    return str.substring(start, end);
+  }
 }
