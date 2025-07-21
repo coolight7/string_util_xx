@@ -542,7 +542,7 @@ class StringUtilxx_c {
       return null;
     }
     if (null != end) {
-      if (end > start) {
+      if (end < start) {
         return null;
       }
       if (end > str.length) {
