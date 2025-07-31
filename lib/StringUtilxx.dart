@@ -551,4 +551,21 @@ class StringUtilxx_c {
     }
     return str.substring(start, end);
   }
+
+  static String toArgument(
+    String str, {
+    final String mark = '"',
+  }) {
+    assert(mark.length == 1);
+    final result = str.replaceAllMapped(
+        RegExp('(^|[^\\\\])((\\$mark)+)', multiLine: true), (match) {
+      final marklist = match[2] ?? "";
+      String m = "";
+      for (int i = 0; i < marklist.length; ++i) {
+        m += "\\$mark";
+      }
+      return "${match[1]}$m";
+    });
+    return "$mark$result$mark";
+  }
 }

@@ -9,6 +9,7 @@ void main() {
   test_removeSpace();
   test_isIgnoreCaseEqual();
   test_isIgnoreCaseContains();
+  test_toArgument();
 }
 
 void test_compareExtend() {
@@ -317,5 +318,20 @@ void test_isIgnoreCaseContains() {
         StringUtilxx_c.isNotEmptyAndIgnoreCaseContainsAny(
             "你 好abc\n\r", "不 好ABC"),
         false);
+  });
+}
+
+void test_toArgument() {
+  test("toArgument", () {
+    expect(StringUtilxx_c.toArgument(''), '""');
+    expect(StringUtilxx_c.toArgument('""'), r'"\"\""');
+    expect(StringUtilxx_c.toArgument(r'他说：wow'), r'"他说：wow"');
+    expect(StringUtilxx_c.toArgument(r'他说：""'), r'"他说：\"\""');
+    expect(StringUtilxx_c.toArgument(r'"hh", 他如此说道'), r'"\"hh\", 他如此说道"');
+    expect(StringUtilxx_c.toArgument(r'""", 他如此说道'), r'"\"\"\", 他如此说道"');
+    expect(StringUtilxx_c.toArgument(r'\""\", 他如此说道'), r'"\"\"\", 他如此说道"');
+    expect(StringUtilxx_c.toArgument(r'"\"", 他如此说道'), r'"\"\"\", 他如此说道"');
+    expect(StringUtilxx_c.toArgument(r'他说："wow"'), r'"他说：\"wow\""');
+    expect(StringUtilxx_c.toArgument(r'他说：\"wow\"'), r'"他说：\"wow\""');
   });
 }
