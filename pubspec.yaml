@@ -7,7 +7,9 @@ environment:
   sdk: ^2.19.6
 
 dependencies:
-  lpinyin: ^2.0.3 # 汉字转拼音
+  lpinyin:
+    git:
+      url: https://github.com/coolight7/lpinyin
 
 dev_dependencies:
   test:
