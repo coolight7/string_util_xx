@@ -90,7 +90,7 @@ class StringUtilxx_c {
       return null;
     }
     // 移除开头的空白符
-    str.replaceFirst(r"^\s+", "");
+    str = removeBetweenSpace(str);
     if (str.isEmpty) {
       return null;
     }
@@ -117,8 +117,7 @@ class StringUtilxx_c {
       final result = PinyinHelper.getFirstWordPinyin(str);
       if (result.isNotEmpty) {
         // 非空
-        final code = result.codeUnitAt(0);
-        if (isCode_AZaz(code)) {
+        if (isCode_AZaz(result.codeUnitAt(0))) {
           // 第一个字符在 [A-Za-z]
           return result.toLowerCase();
         }
