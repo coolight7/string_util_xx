@@ -561,9 +561,9 @@ class StringUtilxx_c {
     final result = str.replaceAllMapped(
         RegExp('(^|[^\\\\])((\\$mark)+)', multiLine: true), (match) {
       final marklist = match[2] ?? "";
-      String m = "";
+      final m = StringBuffer();
       for (int i = 0; i < marklist.length; ++i) {
-        m += "\\$mark";
+        m.write("\\$mark");
       }
       return "${match[1]}$m";
     });
