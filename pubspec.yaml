@@ -11,6 +11,10 @@ dependencies:
     git:
       url: https://github.com/coolight7/lpinyin
 
+dependency_overrides:
+  lpinyin:
+    path: ../lpinyin
+    
 dev_dependencies:
   test:
   lints:

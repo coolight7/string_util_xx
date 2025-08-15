@@ -90,7 +90,7 @@ class StringUtilxx_c {
       return null;
     }
     // 移除开头的空白符
-    str = removeBetweenSpace(str);
+    str = removeBetweenSpace(str, subRight: false);
     if (str.isEmpty) {
       return null;
     }
@@ -211,12 +211,17 @@ class StringUtilxx_c {
           rightSum = 0;
 
           /// 判断中英文字符，尝试转为拼音进行比较
-          final leftPinyin = getFirstCharPinyin(
-            leftItem,
-          );
-          final rightPinyin = getFirstCharPinyin(
-            rightItem,
-          );
+          /// getFirstCharPinyinFirstChar(left) 修复首字多音字问题
+          final leftPinyin = (i == 0)
+              ? getFirstCharPinyinFirstChar(left)
+              : getFirstCharPinyin(
+                  leftItem,
+                );
+          final rightPinyin = (j == 0)
+              ? getFirstCharPinyinFirstChar(right)
+              : getFirstCharPinyin(
+                  rightItem,
+                );
           if (null != leftPinyin) {
             // 左是中英文字符
             if (null != rightPinyin) {
