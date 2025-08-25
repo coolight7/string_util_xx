@@ -273,6 +273,10 @@ class StringUtilxx_c {
         .replaceAll(RegExp(r'[\\/]{2,}'), r'\');
   }
 
+  static String toWindowsStandardPath(String path) {
+    return path.replaceAll(RegExp(r'[/\\]+'), r'\');
+  }
+
   /// 将路径unix标准化
   static String toUnixStandardPath(String path) {
     return path.replaceAll(RegExp(r'[/\\]+'), '/');
