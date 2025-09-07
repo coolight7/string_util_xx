@@ -147,18 +147,18 @@ class StringUtilxx_c {
   ///   * 数值
   ///   * 特殊字符
   ///   * A-Z（中英文字符混合排序）
-  static int compareExtend(String left, String right) {
+  static int compareExtend(String? left, String? right) {
     // 左排前，返回-1
     // 右排前，返回1
     // 相等返回0
-    if (left.isEmpty) {
-      if (right.isEmpty) {
+    if (null == left || left.isEmpty) {
+      if (null == right || right.isEmpty) {
         return 0;
       } else {
         // 左空，右非空；左排前
         return -1;
       }
-    } else if (right.isEmpty) {
+    } else if (null == right || right.isEmpty) {
       // 左非空，右空；右排前
       return 1;
     }
