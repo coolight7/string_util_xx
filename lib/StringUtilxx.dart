@@ -273,6 +273,10 @@ class StringUtilxx_c {
         .replaceAll(RegExp(r'[\\/]{2,}'), r'\');
   }
 
+  static String toWindowsStandardPath(String path) {
+    return path.replaceAll(RegExp(r'[/\\]+'), r'\');
+  }
+
   /// 将路径unix标准化
   static String toUnixStandardPath(String path) {
     return path.replaceAll(RegExp(r'[/\\]+'), '/');
@@ -404,7 +408,10 @@ class StringUtilxx_c {
   }
 
   /// 获取文件或文件夹的父目录路径
-  static String? getParentDirPath(String in_path) {
+  static String? getParentDirPath(String? in_path) {
+    if (null == in_path || in_path.isEmpty) {
+      return null;
+    }
     int i = in_path.length;
     // 去掉末尾的 / 或 \
     while (i-- > 0) {
