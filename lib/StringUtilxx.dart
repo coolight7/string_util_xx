@@ -165,6 +165,7 @@ class StringUtilxx_c {
     int leftSum = 0;
     int rightSum = 0;
     for (int i = 0, j = 0; i < left.length && j < right.length; ++i, ++j) {
+      // 获取单个字符
       final leftItem = left[i].toLowerCase();
       final rightItem = right[j].toLowerCase();
       final leftCode = leftItem.codeUnitAt(0);
@@ -213,12 +214,12 @@ class StringUtilxx_c {
           /// 判断中英文字符，尝试转为拼音进行比较
           /// getFirstCharPinyinFirstChar(left) 修复首字多音字问题
           final leftPinyin = (i == 0)
-              ? getFirstCharPinyinFirstChar(left)
+              ? getFirstCharPinyin(left)
               : getFirstCharPinyin(
                   leftItem,
                 );
           final rightPinyin = (j == 0)
-              ? getFirstCharPinyinFirstChar(right)
+              ? getFirstCharPinyin(right)
               : getFirstCharPinyin(
                   rightItem,
                 );
