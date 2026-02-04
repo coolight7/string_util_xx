@@ -283,6 +283,13 @@ class StringUtilxx_c {
     return path.replaceAll(RegExp(r'[/\\]+'), '/');
   }
 
+  static String toUnixStandardDirPath(String path) {
+    if (path.isEmpty) {
+      return path;
+    }
+    return toUnixStandardPath(path.endsWith("/") ? path : "$path/");
+  }
+
   /// ## 获取文件或文件夹名称
   /// * [useRigthDot] 判断扩展名时应当取左还是右边的点[.]
   /// ### 特殊情况
