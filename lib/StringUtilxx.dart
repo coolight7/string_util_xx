@@ -546,8 +546,16 @@ class StringUtilxx_c {
   }
 
   /// 是否[str1]和[str2]都非空，并且其中长的字符串包含端的字符串，忽略大小写
-  static bool isNotEmptyAndIgnoreCaseContainsAny(String str1, String str2) {
-    if (str1.isEmpty || str2.isEmpty) {
+  static bool isNotEmptyAndIgnoreCaseContains(String? str1, String? str2) {
+    if (str1 == null || str2 == null || str1.isEmpty || str2.isEmpty) {
+      return false;
+    }
+    return isIgnoreCaseContains(str1, str2);
+  }
+
+  /// 是否[str1]和[str2]都非空，并且其中长的字符串包含端的字符串，忽略大小写
+  static bool isNotEmptyAndIgnoreCaseContainsAny(String? str1, String? str2) {
+    if (str1 == null || str2 == null || str1.isEmpty || str2.isEmpty) {
       return false;
     }
     return isIgnoreCaseContainsAny(str1, str2);
