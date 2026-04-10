@@ -325,6 +325,8 @@ void test_toArgument() {
   test("toArgument", () {
     expect(StringUtilxx_c.toArgument(''), '""');
     expect(StringUtilxx_c.toArgument('""'), r'"\"\""');
+    expect(StringUtilxx_c.toArgument(r'{"enable_thinking": false}'),
+        r'"{\"enable_thinking\": false}"');
     expect(StringUtilxx_c.toArgument(r'他说：wow'), r'"他说：wow"');
     expect(StringUtilxx_c.toArgument(r'他说：""'), r'"他说：\"\""');
     expect(StringUtilxx_c.toArgument(r'"hh", 他如此说道'), r'"\"hh\", 他如此说道"');
